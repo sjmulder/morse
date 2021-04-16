@@ -7,60 +7,33 @@
 
 static const char usage[] = "usage: morse [-d]\n";
 
-static const char * const dict_alpha[] = {
-	/* A */ ".-",
-	/* B */ "-...",
-	/* C */ "-.-.",
-	/* D */ "-..",
-	/* E */ ".",
-	/* F */ "..-.",
-	/* G */ "--.",
-	/* H */ "....",
-	/* I */ "..",
-	/* J */ ".---",
-	/* K */ "-.-",
-	/* L */ ".-..",
-	/* M */ "--",
-	/* N */ "-.",
-	/* O */ "---",
-	/* P */ ".--.",
-	/* Q */ "--.-",
-	/* R */ ".-.",
-	/* S */ "...",
-	/* T */ "-",
-	/* U */ "..-",
-	/* V */ "...-",
-	/* W */ ".--",
-	/* X */ "-..-",
-	/* Y */ "-.--",
-	/* Z */ "--.."
-};
-
-static const char * const dict_num[] = {
-	/* 0 */ "-----",
-	/* 1 */ ".----",
-	/* 2 */ "..---",
-	/* 3 */ "...--",
-	/* 4 */ "....-",
-	/* 5 */ ".....",
-	/* 6 */ "-....",
-	/* 7 */ "--...",
-	/* 8 */ "---..",
-	/* 9 */ "----."
+static const char * const dict[128] = {
+	NULL   ,NULL   ,NULL   ,NULL   ,NULL   ,NULL   ,NULL   ,NULL   ,
+	NULL   ,NULL   ,NULL   ,NULL   ,NULL   ,NULL   ,NULL   ,NULL   ,
+	NULL   ,NULL   ,NULL   ,NULL   ,NULL   ,NULL   ,NULL   ,NULL   ,
+	NULL   ,NULL   ,NULL   ,NULL   ,NULL   ,NULL   ,NULL   ,NULL   ,
+	NULL   ,NULL   ,NULL   ,NULL   ,NULL   ,NULL   ,NULL   ,NULL   ,
+	NULL   ,NULL   ,NULL   ,NULL   ,NULL   ,NULL   ,NULL   ,NULL   ,
+	"-----",".----","..---","...--","....-",".....","-....","--...",
+	"---..","----.",NULL   ,NULL   ,NULL   ,NULL   ,NULL   ,NULL   ,
+	NULL   ,".-"   ,"-..." ,"-.-." ,"-.."  ,"."    ,"..-." ,"--."  ,
+	"...." ,".."   ,".---" ,"-.-"  ,".-.." ,"--"   ,"-."   ,"---"  ,
+	".--." ,"--.-" ,".-."  ,"..."  ,"-"    ,"..-"  ,"...-" ,".--"  ,
+	"-..-" ,"-.--" ,"--.." ,NULL   ,NULL   ,NULL   ,NULL   ,NULL   ,
+	NULL   ,".-"   ,"-..." ,"-.-." ,"-.."  ,"."    ,"..-." ,"--."  ,
+	"...." ,".."   ,".---" ,"-.-"  ,".-.." ,"--"   ,"-."   ,"---"  ,
+	".--." ,"--.-" ,".-."  ,"..."  ,"-"    ,"..-"  ,"...-" ,".--"  ,
+	"-..-" ,"-.--" ,"--.." ,NULL   ,NULL   ,NULL   ,NULL   ,""
 };
 
 static const char lf[] = "\n";
 
 static const char *
-encode(char c)
+encode(int c)
 {
-	     if (c >= 'a' && c <= 'z') return dict_alpha[c-'a'];
-	else if (c >= 'A' && c <= 'Z') return dict_alpha[c-'A'];
-	else if (c >= '0' && c <= '9') return dict_num[c-'A'];
-	else if (c == ' ' || c == '.' || c == '\n')
+	if (c > (int)LEN(dict) || dict[c] == NULL)
 		return lf;
-	else
-		return NULL;
+	return dict[c];
 }
 
 static int
@@ -68,14 +41,9 @@ decode(const char *s)
 {
 	int i;
 
-	for (i=0; i < (int)LEN(dict_alpha); i++)
-		if (!strcmp(s, dict_alpha[i]))
-			return i+'A';
-
-	for (i=0; i < (int)LEN(dict_num); i++)
-		if (!strcmp(s, dict_num[i]))
-			return i+'0';
-
+	for (i='0'; i<'Z'; i++)
+		if (dict[i] && !strcmp(s, dict[i]))
+			return i;
 	return -1;
 }
 
