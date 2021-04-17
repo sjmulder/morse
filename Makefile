@@ -1,8 +1,8 @@
 CFLAGS+=	-Wall -Wextra
 
-all: morse
+all: morse morse-pwmplay
 
 clean:
-	rm -f morse
+	rm -f morse morse-pwmplay
 
 .PHONY: all clean
