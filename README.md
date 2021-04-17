@@ -14,7 +14,7 @@ morse-pwmplay
 -------------
 Output morse on a passive buzzer with PWM
 
-**morse-pwmplay** [*chip* [**channel**]]
+**morse-pwmplay** [*chip* [*channel*]]
 
 On Linux only, with boards such as the Raspberry Pi, this utility can
 play the morse output on a passive buzzer.
