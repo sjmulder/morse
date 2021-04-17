@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <unistd.h>
+#include <signal.h>
 #include <getopt.h>
 #include <err.h>
 
@@ -10,6 +11,14 @@
 
 static const char usage[] =
 "usage: morse-pwmplay [chip [channel]]\n";
+
+static volatile sig_atomic_t flag_sigint;
+
+static void
+on_sigint()
+{
+	flag_sigint = 1;
+}
 
 static FILE *
 xfopen(const char *fmt, ...)
@@ -61,7 +70,9 @@ main(int argc, char **argv)
 	fprintf(period, "%ld", 1000000000L/TONE_HZ);
 	fprintf(duty, "%ld", 1000000000L/TONE_HZ/2);
 
-	while ((c = getchar()) != EOF)
+	signal(SIGINT, on_sigint);
+
+	while (!flag_sigint && (c = getchar()) != EOF)
 		switch (c) {
 		case '.':
 			fputs("1", enable); usleep(1000L*DOT_MS);
