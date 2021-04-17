@@ -52,7 +52,12 @@ Examples
 
 Building
 --------
-`make`.
+Should build on any Unix (but *morse-pwmplay* will only work on Linux).
+See the Makefile for more variables.
+
+    make
+    make install   [PREFIX=/usr/local]
+    make uninstall [PREFIX=/usr/local]
 
 Legal
 -----
