@@ -64,7 +64,7 @@ main(int argc, char **argv)
 	if (optind > argc)
 		{ fputs(usage, stderr); return 1; }
 
-	if (opt_decode) {
+	if (opt_decode)
 		while ((s = fgets(buf, sizeof(buf), stdin))) {
 			while ((word = strsep(&s, " \n"))) {
 				if ((c = decode(word)) == -1)
@@ -76,7 +76,7 @@ main(int argc, char **argv)
 			}
 			addsp = !col0;
 		}
-	} else 
+	else
 		while ((c = getchar()) != EOF)
 			if (!(code = encode(c)))
 				;
